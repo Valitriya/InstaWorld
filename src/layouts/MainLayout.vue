@@ -32,10 +32,11 @@
     <q-page-container>
       <router-view />
     </q-page-container>
-
     <q-footer 
       elevated
       class="bg-white small-screen-only">
+
+    <q-footer bordered class="bg-white">
       <q-tabs 
         class="text-cyan"
         active-color="pink-5"
@@ -63,8 +64,10 @@
         </q-route-tab>
         <q-route-tab 
           to="/profile"
+          alert 
           name="profile" 
-          icon="face"/>
+          icon="face" 
+          label="Profile"/>
       </q-tabs>
     </q-footer>
       
@@ -139,3 +142,4 @@ export default {
       .q-tab__icon
         font-size: 35px
 </style>
+
