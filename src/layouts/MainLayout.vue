@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-cyan">
+    <q-header elevated class="bg-white text-cyan">
       <q-toolbar>
         <q-btn
           flat
@@ -11,11 +11,9 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
         />
 
-        <q-toolbar-title>
-          InstaWorld
+        <q-toolbar-title class="text-grand-hotel text-bold">
+          JuicyGram
         </q-toolbar-title>
-
-        <div>InstaWorld v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
@@ -44,7 +42,7 @@
       <router-view />
     </q-page-container>
 
-    <q-footer bordered class="bg-white">
+    <q-footer elevated class="bg-white">
       <q-tabs 
         class="text-cyan"
         active-color="pink-5"
@@ -58,27 +56,22 @@
         </q-route-tab>
         <q-route-tab 
           to="/reels"
-          alert 
           name="reels" 
           icon="eva-film-outline"/>
         <q-route-tab 
           to="/search"
-          alert 
           name="search" 
           icon="eva-search-outline">
         </q-route-tab>
         <q-route-tab 
           to="/camera"
-          alert 
           name="camera" 
           icon="eva-camera-outline">
         </q-route-tab>
         <q-route-tab 
           to="/profile"
-          alert 
           name="profile" 
-          icon="face" 
-          label="Profile"/>
+          icon="face"/>
       </q-tabs>
     </q-footer>
       
@@ -144,3 +137,12 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+  .q-toolbar__title 
+    text-align: center
+    font-size: 31px
+    .q-footer
+      .q-tab__icon
+        font-size: 35px
+</style>
