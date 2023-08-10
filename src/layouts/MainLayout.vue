@@ -137,5 +137,5 @@ export default {
     font-size: 31px
     .q-footer
       .q-tab__icon
-        font-size: 45px
+        font-size: 35px
 </style>
