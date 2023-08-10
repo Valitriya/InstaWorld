@@ -142,4 +142,3 @@ export default {
       .q-tab__icon
         font-size: 35px
 </style>
-
