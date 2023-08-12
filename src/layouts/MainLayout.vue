@@ -42,7 +42,9 @@
       <router-view />
     </q-page-container>
 
-    <q-footer elevated class="bg-white">
+    <q-footer 
+      elevated
+      class="bg-white small-screen-only">
       <q-tabs 
         class="text-cyan"
         active-color="pink-5"
@@ -144,5 +146,5 @@ export default {
     font-size: 31px
     .q-footer
       .q-tab__icon
-        font-size: 35px
+        font-size: 45px
 </style>
