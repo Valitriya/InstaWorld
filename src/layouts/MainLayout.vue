@@ -12,8 +12,15 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="q-pa-md bg-pink-4">
+      content-class="bg-grey-1"
+    >
       <q-list>
+        <q-item-label
+          header
+          class="text-grey-8"
+        >
+          Essential Links
+        </q-item-label>
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -125,20 +132,10 @@ export default {
 </script>
 
 <style lang="sass">
-  .q-toolbar
-    @media (min-width: $breakpoint-xs-max)
-      height: 77px
   .q-toolbar__title 
+    text-align: center
     font-size: 31px
-    @media (max-width: $breakpoint-xs-max)
-      text-align: center
-      font-size: 31px
-  .q-footer
-    .q-tab__icon
-      font-size: 45px
-  .q-list
-    margin: 80px 0px 0px 30px
-  .q-item__section--side > .q-icon 
-    color: $white 
-    font-size: 30px
+    .q-footer
+      .q-tab__icon
+        font-size: 45px
 </style>
