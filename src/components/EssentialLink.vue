@@ -2,7 +2,6 @@
   <q-item
     clickable
     tag="a"
-    target="_blank"
     :href="link"
   >
     <q-item-section
@@ -13,7 +12,7 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label>{{ title }}</q-item-label>
+      <q-item-label class="text-white text-grand-hotel">{{ title }}</q-item-label>
       <q-item-label caption>
         {{ caption }}
       </q-item-label>
@@ -42,8 +41,13 @@ export default {
 
     icon: {
       type: String,
-      default: ''
+      default: '',
     }
   }
 }
 </script>
+
+<style lang="sass">
+  .q-item__label 
+    font-size: 25px
+</style>

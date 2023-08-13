@@ -1,16 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-white text-cyan">
-      <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
-
+    <q-header elevated class="bg-white text-white">
+      <q-toolbar class="bg-pink-4">
         <q-toolbar-title class="text-grand-hotel text-bold">
           JuicyGram
         </q-toolbar-title>
@@ -21,15 +12,16 @@
       v-model="leftDrawerOpen"
       show-if-above
       bordered
-      content-class="bg-grey-1"
+      content-class="q-pa-md bg-pink-4"
+    
     >
       <q-list>
-        <q-item-label
+        <!-- <q-item-label
           header
-          class="text-grey-8"
+          class="text-white"
         >
           Essential Links
-        </q-item-label>
+        </q-item-label> -->
         <EssentialLink
           v-for="link in essentialLinks"
           :key="link.title"
@@ -141,10 +133,17 @@ export default {
 </script>
 
 <style lang="sass">
+  .q-toolbar
+    @media (min-width: $breakpoint-sm-max)
+      height: 77px
   .q-toolbar__title 
-    text-align: center
     font-size: 31px
-    .q-footer
-      .q-tab__icon
-        font-size: 45px
+    @media (max-width: $breakpoint-xs-max)
+      text-align: center
+      font-size: 31px
+  .q-footer
+    .q-tab__icon
+      font-size: 45px
+  .custom-icon
+    color: var(--q-color-white)
 </style>
