@@ -1,6 +1,6 @@
 <template>
-    <q-page class="flex flex-center">
-      <h5>Camera Page</h5>
+    <q-page class="container q-pa-md">
+      <div class="camera-frame q-pa-md"></div>
     </q-page>
   </template>
   
