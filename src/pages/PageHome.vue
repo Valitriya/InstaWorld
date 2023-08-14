@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="container q-pa-md">
     <h5>Page Home</h5>
   </q-page>
 </template>
