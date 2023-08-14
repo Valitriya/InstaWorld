@@ -48,6 +48,6 @@ export default {
 </script>
 
 <style lang="sass">
-  .q-item__label 
+  .q-list .q-item__label 
     font-size: 25px
 </style>
