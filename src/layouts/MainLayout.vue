@@ -35,7 +35,7 @@
     <q-footer 
       elevated
       class="bg-white small-screen-only">
-
+    </q-footer>
     <q-footer bordered class="bg-white">
       <q-tabs 
         class="text-cyan"
@@ -142,3 +142,4 @@ export default {
       .q-tab__icon
         font-size: 35px
 </style>
+
