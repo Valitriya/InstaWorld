@@ -1,29 +1,47 @@
 <template>
     <q-page class="container q-pa-md">
-      <VideoComponent :videoData="videoData" />
+        <q-container>
+            <video-list :videos="videos" />
+        </q-container>
     </q-page>
   </template>
   
   <script>
-  import VideoComponent from '../components/Reels.vue';
-  import axios from 'axios';
+  import VideoList from '../components/Reels.vue';
   export default {
     name: 'PageReels',
     components: {
-    VideoComponent,
+    VideoList
   },
   data() {
     return {
-      videoData: null,
+      videos: []
     };
   },
-  async created() {
-    try {
-      const response = await axios.get('URL_РЕДДИТ_API');
-      this.videoData = response.data; // Обработка данных, полученных из Reddit API
-    } catch (error) {
-      console.error('Ошибка при запросе к Reddit API', error);
-    }
+  mounted() {
+    this.fetchVideos();
   },
+  methods: {
+    async fetchVideos() {
+      try {
+        const response = await this.$axios.get(
+          `https://www.googleapis.com/youtube/v3/search`,
+          {
+            params: {
+              q: 'short videos', 
+              key: 'AIzaSyDCsVdBDYaA0IVmAQCj6ZdagLBKP59vxRk',
+              type: 'video',
+              maxResults: 10
+            }
+          }
+        );
+        this.videos = response.data.items.map(item => ({
+          id: item.id.videoId
+        }));
+      } catch (error) {
+        console.error('Error fetching videos:', error);
+      }
+    }
+  }
   }
   </script>
