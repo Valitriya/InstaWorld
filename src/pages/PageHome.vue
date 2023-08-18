@@ -113,9 +113,6 @@ export default {
       color: white
     .q-img
       min-height: 250px
-  .q-card > img
-    max-height: 600px
-    object-fit: cover
   .q-avatar
     img
       object-fit: cover
