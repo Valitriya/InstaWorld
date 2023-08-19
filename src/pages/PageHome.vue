@@ -3,11 +3,11 @@
     <div class="row q-col-gutter-lg">
       <div class="col-12 col-sm-8">
         <q-card 
-        v-for="post in posts"
-        :key="post.id"
-        class="card-post bg-pink-4 q-mb-md"
-        flat
-        bordered>
+          v-for="post in posts"
+          :key="post.id"
+          class="card-post bg-pink-4 q-mb-md"
+          flat
+          bordered>
         <q-item>
           <q-item-section avatar>
             <q-avatar>
@@ -102,9 +102,6 @@ export default {
       return date.formatDate(value, 'MMM D h:mmA')
     }
   },
-  mounted(){
-    console.log(this)
-  }
 }
 </script>
 <style lang="sass">

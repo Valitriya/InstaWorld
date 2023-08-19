@@ -11,41 +11,67 @@
             icon="eva-camera"
             size="lg" />
       </div>
-      <div class="row justify-center q-ma-md">
-        <q-input 
-          v-model="text"
-          class="col"
-          label="Caption"
-          dense />
+      <div class="input-wrapper">
+        <div class="row justify-center q-ma-md">
+          <q-input 
+            v-model="textCaption"
+            class="col custom-input text-grand-hotel"
+            label="Caption"/>
+        </div>
+        <div class="row justify-center q-ma-md">
+          <q-input 
+            v-model="textLocation "
+            class="col custom-input text-grand-hotel"
+            label="Location">
+            <template v-slot:append>
+                <q-btn 
+                  icon="eva-navigation-2-outline"
+                  dense
+                  flat
+                  round />
+            </template>
+          </q-input>
+        </div>
       </div>
-      <div class="row justify-center q-ma-md">
-        <q-input 
-          v-model="text"
-          class="col"
-          label="Location"
-          dense>
-            <template v-slot:prepend>
-              <q-icon name="place" />
-          </template>
-          <template v-slot:append>
-              <q-btn 
-                icon="eva-navigation-2-outline"
-                dense
-                flat
-                round />
-          </template>
-        </q-input>
+      <div class="row justify-center q-mt-lg">
+        <q-btn 
+          class="glossy" 
+          color="info" 
+          label="Go" />
       </div>
     </q-page>
   </template>
   
   <script>
   export default {
-    name: 'PageCamera'
+    name: 'PageCamera',
+    data(){
+      return{
+        textCaption:'',
+        textLocation: '',
+      }
+    }
   }
   </script>
   <style lang="sass">
-   .camera-frame
-      border: 2px solid $pink 
-      border-radius: 10px
+  .camera-frame, .input-wrapper
+    border: 5px solid $pink 
+    border-radius: 10px
+  .custom-input
+    .q-field__label
+      color: $white 
+      font-size: 22px
+      padding: 0 0 0 10px
+    .q-field__control
+      --q-color-primary: #efc7f7
+      background-color: $pink-11  
+      border-radius: 5px    
+      &:before
+        display: none
+    .q-btn
+      color: $white
+    .q-field__native
+      color: $white
+      padding: 24px 10px 10px 10px
+      font-weight: bold
   </style>
