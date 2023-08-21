@@ -1,5 +1,5 @@
 <template>
-    <q-page class="container q-pa-md">
+    <q-page class="container q-pa-md small-screen-only">
       <div class="camera-frame q-pa-md">
         <img class="full-width" 
              src="https://sun9-13.userapi.com/impg/gOKXlXiJu3XH7SGJvzX3TkSE0GmGS4QaTMALxA/3FpZKJBCo84.jpg?size=1080x1080&quality=96&sign=7bd8a9bf28aff869c3a2febe0d884257&type=album">
@@ -14,13 +14,13 @@
       <div class="input-wrapper">
         <div class="row justify-center q-ma-md">
           <q-input 
-            v-model="textCaption"
+            v-model="post.textCaption"
             class="col custom-input text-grand-hotel"
             label="Caption"/>
         </div>
         <div class="row justify-center q-ma-md">
           <q-input 
-            v-model="textLocation "
+            v-model="post.textLocation "
             class="col custom-input text-grand-hotel"
             label="Location">
             <template v-slot:append>
@@ -47,8 +47,11 @@
     name: 'PageCamera',
     data(){
       return{
-        textCaption:'',
-        textLocation: '',
+        post: {
+          textCaption:'',
+          textLocation: ''
+        }
+        
       }
     }
   }
