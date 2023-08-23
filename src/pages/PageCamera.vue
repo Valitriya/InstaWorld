@@ -7,9 +7,15 @@
           playsinline
           ref="video"
         />
+        <canvas
+          ref="canvas"
+          class="full-width"
+          height="240"
+        />
       </div>
       <div class="text-center q-pa-md">
         <q-btn 
+            @click="captureImage"
             round 
             color="pink-6"
             icon="eva-camera"
@@ -70,6 +76,14 @@
         }).then(stream =>{
           this.$refs.video.srcObject = stream
         })
+      },
+      captureImage(){
+        let video = this.$refs.video
+        let canvas = this.$refs.canvas
+        canvas.width = video.getBoundingClientRect().width
+        canvas.height = video.getBoundingClientRect().height
+        let context = canvas.getContext('2d')
+        context.drawImage(video, 0, 0, canvas.width, canvas.height)
       }
     },
     mounted(){
