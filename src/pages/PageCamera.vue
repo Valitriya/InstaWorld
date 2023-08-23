@@ -1,15 +1,19 @@
 <template>
-    <q-page class="container-more q-pa-md small-screen-only">
+    <q-page class="container q-pa-md small-screen-only">
       <div class="camera-frame q-pa-md">
-        <img class="full-width" 
-             src="https://sun9-13.userapi.com/impg/gOKXlXiJu3XH7SGJvzX3TkSE0GmGS4QaTMALxA/3FpZKJBCo84.jpg?size=1080x1080&quality=96&sign=7bd8a9bf28aff869c3a2febe0d884257&type=album">
+        <video 
+          class="full-width"
+          autoplay
+          playsinline
+          ref="video"
+        />
       </div>
       <div class="text-center q-pa-md">
         <q-btn 
             round 
             color="pink-6"
             icon="eva-camera"
-            size="lg" />
+            size="lg"/>
       </div>
       <div class="input-wrapper small-wrapper-input">
         <div class="row justify-center q-ma-md">
@@ -44,6 +48,7 @@
   
   <script>
   import { uid } from 'quasar'
+  require('md-gum-polyfill')
 
   export default {
     name: 'PageCamera',
@@ -57,6 +62,18 @@
           date: Date.now()
         } 
       }
+    },
+    methods: {
+      initCamera(){
+        navigator.mediaDevices.getUserMedia({
+          video: true
+        }).then(stream =>{
+          this.$refs.video.srcObject = stream
+        })
+      }
+    },
+    mounted(){
+      this.initCamera()
     }
   }
   </script>
