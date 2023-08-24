@@ -17,11 +17,38 @@
       </div>
       <div class="text-center q-pa-md">
         <q-btn 
-            @click="captureImage"
-            round 
-            color="pink-6"
-            icon="eva-camera"
-            size="lg"/>
+          v-if="hasCameraSupport"
+          @click="captureImage"
+          round 
+          color="pink-6"
+          icon="eva-camera"
+          size="lg"/>
+        <q-file 
+          :key="shouldResetFileInput"
+          v-else
+          filled 
+          bottom-slots 
+          @input="captureImageFallback"
+          v-model="imageUpload" 
+          label="Choose an image" 
+          counter
+          accept="image/*"
+          class="custom-input small-wrapper-input">
+          <template v-slot:prepend>
+            <q-icon 
+              name="cloud_upload" 
+              @click="clearImageUpload"/>
+          </template>
+          <template v-slot:append>
+            <q-icon 
+              name="close" 
+              @click.stop.prevent="clearImageUpload" 
+              class="cursor-pointer" />
+          </template>
+          <template v-slot:hint>
+            File size
+          </template>
+        </q-file>
       </div>
       <div class="input-wrapper small-wrapper-input">
         <div class="row justify-center q-ma-md">
@@ -62,6 +89,7 @@
     name: 'PageCamera',
     data(){
       return{
+        shouldResetFileInput: false,
         post: {
           id: uid(),
           textCaption:'',
@@ -69,7 +97,9 @@
           photo: null,
           date: Date.now()
         },
-        imageCaptured: false
+        imageCaptured: false,
+        hasCameraSupport: true,
+        imageUpload: []
       }
     },
     methods: {
@@ -78,6 +108,8 @@
           video: true
         }).then(stream =>{
           this.$refs.video.srcObject = stream
+        }).catch(error => {
+          this.hasCameraSupport = false
         })
       },
       captureImage(){
@@ -89,6 +121,29 @@
         context.drawImage(video, 0, 0, canvas.width, canvas.height)
         this.imageCaptured = true
         this.post.photo = this.dataURItoBlob(canvas.toDataURL())
+      },
+      captureImageFallback(file){
+        this.post.photo = file
+
+        let canvas = this.$refs.canvas
+        let context = canvas.getContext('2d')
+
+        let reader = new FileReader()
+        reader.onload = event => {
+          let img = new Image()
+          img.onload = () => {
+            canvas.width = img.width
+            canvas.height = img.height
+            context.drawImage(img,0,0)
+            this.imageCaptured = true
+          }
+          img.src = event.target.result
+      }
+      reader.readAsDataURL(file)  
+      },
+      clearImageUpload() {
+        this.imageUpload = null;
+        this.shouldResetFileInput = !this.shouldResetFileInput;
       },
       dataURItoBlob(dataURI) {
         // convert base64 to raw binary data held in a string
@@ -115,25 +170,29 @@
   }
   </script>
   <style lang="sass">
-  .camera-frame, .input-wrapper
-    border: 5px solid $pink 
-    border-radius: 10px
-  .custom-input
-    .q-field__label
-      color: $white 
-      font-size: 22px
-      padding: 0 0 0 10px
-      font-family: 'Grand Hotel'
-    .q-field__control
-      --q-color-primary: #efc7f7
-      background-color: $pink-11  
-      border-radius: 5px 
-      &:before
-        display: none
-    .q-btn
-      color: $white
-    .q-field__native
-      color: $white
-      padding: 24px 10px 10px 10px
-      font-weight: bold
+    .camera-frame, .input-wrapper
+      border: 5px solid $pink 
+      border-radius: 10px
+    .custom-input
+      .q-field__label
+        color: $white 
+        font-size: 22px
+        padding: 0 0 0 10px
+        font-family: 'Grand Hotel'
+      .q-field__control, 
+      .q-field__inner
+        --q-color-primary: #efc7f7
+        background-color: $pink-11  
+        border-radius: 5px 
+        &:before
+          display: none
+      .q-btn, 
+      .q-icon
+        color: $white
+      .q-field__native
+        color: $white
+        padding: 24px 10px 10px 10px
+        font-weight: bold
+      .q-field__bottom 
+        color: $info
   </style>
