@@ -64,7 +64,12 @@
           label="Location"
         >
           <template v-slot:append>
-            <q-btn icon="eva-navigation-2-outline" dense flat round />
+            <q-btn 
+              @click="getLocation"
+              icon="eva-navigation-2-outline" 
+              dense 
+              flat 
+              round />
           </template>
         </q-input>
       </div>
@@ -142,6 +147,7 @@ export default {
     clearImageUpload() {
       this.imageUpload = null;
       this.shouldResetFileInput = !this.shouldResetFileInput;
+      this.imageCaptured = false;
     },
     disableCamera(){
       this.$refs.video.srcObject.getVideoTracks().forEach(track => {
@@ -166,6 +172,34 @@ export default {
       var blob = new Blob([ab], { type: mimeString });
       return blob;
     },
+    getLocation(){
+      navigator.geolocation.getCurrentPosition(position => {
+        this.getCityAndCountry(position)
+      }).catch (err => {
+        this.locationError()
+      }, {timeout: 7000})
+    },
+    getCityAndCountry(position){
+      let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`
+      this.$axios.get(apiUrl).then( result => {
+        this.locationSuccess(result)
+      }).catch(err => {
+        this.locationError()
+      })
+    },
+    locationSuccess(result){
+      this.post.textLocation = result.data.city
+      if(result.data.country){
+        this.post.textLocation += ` , ${result.data.country}`
+      }
+    },
+    locationError(){
+      this.$q.dialog({
+        dark: true,
+        title: 'Error',
+        message: 'Could not find your location'
+      })
+    }
   },
   mounted() {
     this.initCamera();
