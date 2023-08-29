@@ -1,41 +1,14 @@
 <template>
   <q-page class="container q-pa-md small-screen-only">
     <div class="camera-frame q-pa-md">
-    <Camera/>
+      <Camera />
     </div>
     <div class="text-center q-pa-md">
-      <q-btn
-        v-if="hasCameraSupport"
-        @click="captureImage"
-        round
-        color="pink-6"
-        icon="eva-camera"
-        size="lg"
+      <ImageUpload
+        :imageUpload="imageUpload"
+        :shouldResetFileInput="shouldResetFileInput"
+        :hasCameraSupport="hasCameraSupport"
       />
-      <q-file
-        :key="shouldResetFileInput"
-        v-else
-        filled
-        bottom-slots
-        @input="captureImageFallback"
-        v-model="imageUpload"
-        label="Choose an image"
-        counter
-        accept="image/*"
-        class="custom-input small-wrapper-input"
-      >
-        <template v-slot:prepend>
-          <q-icon name="cloud_upload" @click="clearImageUpload" />
-        </template>
-        <template v-slot:append>
-          <q-icon
-            name="close"
-            @click.stop.prevent="clearImageUpload"
-            class="cursor-pointer"
-          />
-        </template>
-        <template v-slot:hint> File size </template>
-      </q-file>
     </div>
     <div class="input-wrapper small-wrapper-input">
       <div class="row justify-center q-ma-md">
@@ -53,13 +26,14 @@
           label="Location"
         >
           <template v-slot:append>
-            <q-btn 
+            <q-btn
               v-if="!locationLoading && locationSupported"
               @click="getLocation"
-              icon="eva-navigation-2-outline" 
-              dense 
-              flat 
-              round />
+              icon="eva-navigation-2-outline"
+              dense
+              flat
+              round
+            />
           </template>
         </q-input>
       </div>
@@ -71,18 +45,19 @@
 </template>
 
 <script>
-import Camera from "../components/Camera.vue"
+import Camera from "../components/Camera/Camera.vue";
+import ImageUpload from "src/components/Camera/ImageUpload.vue";
 import { uid } from "quasar";
 require("md-gum-polyfill");
 
 export default {
   name: "PageCamera",
   components: {
-    Camera
+    Camera,
+    ImageUpload,
   },
   data() {
     return {
-      shouldResetFileInput: false,
       post: {
         id: uid(),
         textCaption: "",
@@ -90,9 +65,7 @@ export default {
         photo: null,
         date: Date.now(),
       },
-      hasCameraSupport: true,
-      imageUpload: [],
-      locationLoading: false
+      locationLoading: false,
     };
   },
   methods: {
@@ -137,17 +110,15 @@ export default {
     },
   },
   computed: {
-    locationSupported(){
-      if ('geolocation' in navigator) return true
-      return false
-    }
-  }
+    locationSupported() {
+      if ("geolocation" in navigator) return true;
+      return false;
+    },
+  },
 };
 </script>
 <style lang="sass">
-.camera-frame, .input-wrapper
-  border: 5px solid $pink
-  border-radius: 10px
+
 .custom-input
   .q-field__label
     color: $white

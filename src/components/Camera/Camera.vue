@@ -37,41 +37,6 @@ export default {
           this.hasCameraSupport = false;
         });
     },
-    captureImage() {
-      let video = this.$refs.video;
-      let canvas = this.$refs.canvas;
-      canvas.width = video.getBoundingClientRect().width;
-      canvas.height = video.getBoundingClientRect().height;
-      let context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      this.imageCaptured = true;
-      this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-      this.disableCamera();
-    },
-    captureImageFallback(file) {
-      this.post.photo = file;
-
-      let canvas = this.$refs.canvas;
-      let context = canvas.getContext("2d");
-
-      let reader = new FileReader();
-      reader.onload = (event) => {
-        let img = new Image();
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          context.drawImage(img, 0, 0);
-          this.imageCaptured = true;
-        };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    },
-    clearImageUpload() {
-      this.imageUpload = null;
-      this.shouldResetFileInput = !this.shouldResetFileInput;
-      this.imageCaptured = false;
-    },
     disableCamera() {
       this.$refs.video.srcObject.getVideoTracks().forEach((track) => {
         track.stop();
