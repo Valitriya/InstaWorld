@@ -1,10 +1,11 @@
 <template>
   <q-page class="container q-pa-md small-screen-only">
     <div class="camera-frame q-pa-md">
-      <Camera />
+      <Camera @video-element="setVideoElement" />
     </div>
     <div class="text-center q-pa-md">
       <ImageUpload
+        :videoElement="videoElement"
         :imageUpload="imageUpload"
         :shouldResetFileInput="shouldResetFileInput"
         :hasCameraSupport="hasCameraSupport"
@@ -46,7 +47,7 @@
 
 <script>
 import Camera from "../components/Camera/Camera.vue";
-import ImageUpload from "src/components/Camera/ImageUpload.vue";
+import ImageUpload from "../components/Camera/ImageUpload.vue";
 import { uid } from "quasar";
 require("md-gum-polyfill");
 
@@ -66,55 +67,17 @@ export default {
         date: Date.now(),
       },
       locationLoading: false,
+      videoElement: null,
+      imageUpload: null,
+      hasCameraSupport: true,
+      shouldResetFileInput: false,
     };
   },
   methods: {
-    getLocation() {
-      this.locationLoading = true;
-      navigator.geolocation
-        .getCurrentPosition((position) => {
-          this.getCityAndCountry(position);
-        })
-        .catch(
-          (err) => {
-            this.locationError();
-          },
-          { timeout: 7000 }
-        );
+    setVideoElement(videoElement) {
+      this.videoElement = videoElement;
     },
-    getCityAndCountry(position) {
-      let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
-      this.$axios
-        .get(apiUrl)
-        .then((result) => {
-          this.locationSuccess(result);
-        })
-        .catch((err) => {
-          this.locationError();
-        });
-    },
-    locationSuccess(result) {
-      this.post.textLocation = result.data.city;
-      if (result.data.country) {
-        this.post.textLocation += ` , ${result.data.country}`;
-      }
-      this.locationLoading = false;
-    },
-    locationError() {
-      this.$q.dialog({
-        dark: true,
-        title: "Error",
-        message: "Could not find your location",
-      });
-      this.locationLoading = false;
-    },
-  },
-  computed: {
-    locationSupported() {
-      if ("geolocation" in navigator) return true;
-      return false;
-    },
-  },
+    
 };
 </script>
 <style lang="sass">

@@ -37,24 +37,35 @@
 <script>
 export default {
   name: "ImageUpload",
+  props: {
+    videoElement: {
+      type: Object,
+      required: true,
+    },
+  },
   data() {
     return {
       shouldResetFileInput: false,
       imageUpload: [],
       hasCameraSupport: true,
+      imageCaptured: false,
     };
   },
   methods: {
     captureImage() {
-      let video = this.$refs.video;
-      let canvas = this.$refs.canvas;
-      canvas.width = video.getBoundingClientRect().width;
-      canvas.height = video.getBoundingClientRect().height;
-      let context = canvas.getContext("2d");
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      this.imageCaptured = true;
-      this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-      this.disableCamera();
+      console.log(this.$refs.videoElement);
+      console.log(this.$refs.canvas);
+      if (this.$refs.videoElement && this.$refs.canvas) {
+        let videoElement = this.$refs.videoElement;
+        let canvas = this.$refs.canvas;
+        canvas.width = videoElement.getBoundingClientRect().width;
+        canvas.height = videoElement.getBoundingClientRect().height;
+        let context = canvas.getContext("2d");
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        this.imageCaptured = true;
+        this.post.photo = this.dataURItoBlob(canvas.toDataURL());
+        this.disableCamera();
+      }
     },
     captureImageFallback(file) {
       this.post.photo = file;
@@ -80,6 +91,9 @@ export default {
       this.shouldResetFileInput = !this.shouldResetFileInput;
       this.imageCaptured = false;
     },
+  },
+  mounted() {
+    this.captureImage();
   },
 };
 </script>

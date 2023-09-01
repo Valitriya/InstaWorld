@@ -1,11 +1,11 @@
 <template>
   <div>
-    <video
+    <videoElement
       v-show="!imageCaptured"
       class="full-width"
       autoplay
       playsinline
-      ref="video"
+      ref="videoElement"
     />
     <canvas
       v-show="imageCaptured"
@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       imageCaptured: false,
+      hasCameraSupport: true,
     };
   },
   methods: {
@@ -31,16 +32,20 @@ export default {
           video: true,
         })
         .then((stream) => {
-          this.$refs.video.srcObject = stream;
+          this.$refs.videoElement.srcObject = stream;
+          this.$emit("video-element", this.$refs.videoElement);
+          this.hasCameraSupport = true;
         })
         .catch((error) => {
           this.hasCameraSupport = false;
         });
     },
     disableCamera() {
-      this.$refs.video.srcObject.getVideoTracks().forEach((track) => {
-        track.stop();
-      });
+      this.$refs.videoElement.srcObject
+        .getVideoTracks()
+        .forEach((track) => {
+          track.stop();
+        });
     },
     dataURItoBlob(dataURI) {
       // convert base64 to raw binary data held in a string
@@ -59,7 +64,7 @@ export default {
       // write the ArrayBuffer to a blob, and you're done
       var blob = new Blob([ab], { type: mimeString });
       return blob;
-    }
+    },
   },
   mounted() {
     this.initCamera();
