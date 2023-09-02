@@ -1,16 +1,12 @@
 <template>
   <q-page class="container q-pa-md small-screen-only">
-    <div class="camera-frame q-pa-md">
-      <Camera @video-element="setVideoElement" />
+    <div class=" camera-frame text-center q-pa-md">
+      <Camera 
+        :post="post"
+        @video-element="setVideoElement" />
     </div>
     <div class="text-center q-pa-md">
-      <ImageUpload
-        :videoElement="post.videoObject.videoElement"
-        :imageUpload="imageUpload"
-        :shouldResetFileInput="shouldResetFileInput"
-        :hasCameraSupport="hasCameraSupport"
-        @capture-image="handleCaptureImage"
-      />
+      <!-- <ImageUpload/> -->
     </div>
     <div class="input-wrapper small-wrapper-input">
       <div class="row justify-center q-ma-md">
@@ -50,7 +46,6 @@ export default {
         id: uid(),
         textCaption: "",
         textLocation: "",
-        photo: null,
         date: Date.now(),
         videoObject: {},
       },
@@ -68,6 +63,9 @@ export default {
     handleCaptureImage() {
       console.log("Capture image event received with videoObject:", this.post.videoObject);
     },
+    handleImageCaptured(){
+      console.log("Image captured:", imageData);
+    }
   },
 };
 </script>

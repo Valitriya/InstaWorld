@@ -1,28 +1,46 @@
 <template>
   <div>
-    <video
-      v-show="!imageCaptured"
-      class="full-width"
-      autoplay
-      playsinline
-      ref="videoElement"
-    />
-    <canvas
-      v-show="imageCaptured"
-      ref="canvas"
-      class="full-width"
-      height="240"
-    />
+    <div>
+      <video
+        v-show="!imageCaptured"
+        class="full-width"
+        autoplay
+        playsinline
+        ref="videoElement"
+      />
+      <canvas
+        v-show="imageCaptured"
+        ref="canvas"
+        class="full-width"
+        height="240"
+      />
+    </div>
+    <div class="q-pa-md">
+      <q-btn
+        v-if="hasCameraSupport !== null"
+        @click="captureImage"
+        round
+        color="pink-6"
+        icon="eva-camera"
+        size="lg"
+      />
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: "Camera",
+  props: {
+    hasCameraSupport: Boolean,
+  },
   data() {
     return {
       imageCaptured: false,
-      hasCameraSupport: true,
+      cameraSupported: null,
+      post: {
+        photo: null
+      }
     };
   },
   methods: {
@@ -34,18 +52,35 @@ export default {
         .then((stream) => {
           this.$refs.videoElement.srcObject = stream;
           this.$emit("video-element", this.$refs.videoElement);
-          this.hasCameraSupport = true;
+          this.cameraSupported = true;
         })
         .catch((error) => {
-          this.hasCameraSupport = false;
+          this.cameraSupported = false;
         });
     },
     disableCamera() {
-      this.$refs.videoElement.srcObject
-        .getVideoTracks()
-        .forEach((track) => {
-          track.stop();
-        });
+      this.$refs.videoElement.srcObject.getVideoTracks().forEach((track) => {
+        track.stop();
+      });
+    },
+    captureImage() {
+      if (this.$refs.videoElement && this.$refs.canvas) {
+        let videoElement = this.$refs.videoElement;
+        let canvas = this.$refs.canvas;
+        canvas.width = videoElement.getBoundingClientRect().width;
+        canvas.height = videoElement.getBoundingClientRect().height;
+        let context = canvas.getContext("2d");
+        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+        this.imageCaptured = true;
+        this.post.photo = this.dataURItoBlob(canvas.toDataURL());
+        this.$emit("capture-image", this.post.videoObject);
+        this.disableCamera();
+      }
+    },
+    clearImageUpload() {
+      this.imageUpload = null;
+      this.shouldResetFileInput = !this.shouldResetFileInput;
+      this.imageCaptured = false;
     },
     dataURItoBlob(dataURI) {
       // convert base64 to raw binary data held in a string

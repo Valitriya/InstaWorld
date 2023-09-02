@@ -1,16 +1,7 @@
 <template>
   <div>
-    <q-btn
-      v-if="hasCameraSupport"
-      @click="captureImage"
-      round
-      color="pink-6"
-      icon="eva-camera"
-      size="lg"
-    />
     <q-file
       :key="shouldResetFileInput"
-      v-else
       filled
       bottom-slots
       @input="captureImageFallback"
@@ -35,32 +26,19 @@
   </div>
 </template>
 <script>
+import Camera from '../Camera/Camera.vue';
+
 export default {
   name: "ImageUpload",
+  component: {
+    Camera
+  },
   data() {
     return {
-      shouldResetFileInput: false,
-      imageUpload: [],
-      hasCameraSupport: true,
-      imageCaptured: false,
-      videoObject: {}
+    hasCameraSupport: false
     };
   },
   methods: {
-    captureImage() {
-      if (this.$refs.videoElement && this.$refs.canvas) {
-        let videoElement = this.$refs.videoElement;
-        let canvas = this.$refs.canvas;
-        canvas.width = videoElement.getBoundingClientRect().width;
-        canvas.height = videoElement.getBoundingClientRect().height;
-        let context = canvas.getContext("2d");
-        context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-        this.imageCaptured = true;
-        this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-        this.disableCamera();
-        this.$emit("capture-image", this.videoObject);
-      }
-    },
     captureImageFallback(file) {
       this.post.photo = file;
 
@@ -79,15 +57,7 @@ export default {
         img.src = event.target.result;
       };
       reader.readAsDataURL(file);
-    },
-    clearImageUpload() {
-      this.imageUpload = null;
-      this.shouldResetFileInput = !this.shouldResetFileInput;
-      this.imageCaptured = false;
-    },
-  },
-  mounted() {
-    this.captureImage();
-  },
+    }
+  }
 };
 </script>
