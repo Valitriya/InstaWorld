@@ -20,23 +20,7 @@
         />
       </div>
       <div class="row justify-center q-ma-md">
-        <q-input
-          v-model="post.textLocation"
-          :loading="locationLoading"
-          class="col custom-input"
-          label="Location"
-        >
-          <template v-slot:append>
-            <q-btn
-              v-if="!locationLoading && locationSupported"
-              @click="getLocation"
-              icon="eva-navigation-2-outline"
-              dense
-              flat
-              round
-            />
-          </template>
-        </q-input>
+       <Location/>
       </div>
     </div>
     <div class="row justify-center q-mt-lg">
@@ -48,6 +32,7 @@
 <script>
 import Camera from "../components/Camera/Camera.vue";
 import ImageUpload from "../components/Camera/ImageUpload.vue";
+import Location from '../components/Location.vue';
 import { uid } from "quasar";
 require("md-gum-polyfill");
 
@@ -56,6 +41,7 @@ export default {
   components: {
     Camera,
     ImageUpload,
+    Location
   },
   data() {
     return {
@@ -77,11 +63,11 @@ export default {
     setVideoElement(videoElement) {
       this.videoElement = videoElement;
     },
+  }
     
-};
+}
 </script>
 <style lang="sass">
-
 .custom-input
   .q-field__label
     color: $white

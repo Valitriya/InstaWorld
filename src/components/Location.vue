@@ -1,13 +1,29 @@
-<template></template>
+<template>
+  <q-input
+    v-model="post.textLocation"
+    :loading="locationLoading"
+    class="col custom-input"
+    label="Location"
+  >
+    <template v-slot:append>
+      <q-btn
+        v-if="!locationLoading && locationSupported"
+        @click="getLocation"
+        icon="eva-navigation-2-outline"
+        dense
+        flat
+        round
+      />
+    </template>
+  </q-input>
+</template>
 <script>
-  export default{
-      name: "Location",
-      data(){
-          return{
-
-          }
-      },
-      getLocation() {
+export default {
+  name: "Location",
+  data() {
+    return {};
+  },
+  getLocation() {
     this.locationLoading = true;
     navigator.geolocation
       .getCurrentPosition((position) => {
@@ -46,11 +62,11 @@
     });
     this.locationLoading = false;
   },
-computed: {
-  locationSupported() {
-    if ("geolocation" in navigator) return true;
-    return false;
+  computed: {
+    locationSupported() {
+      if ("geolocation" in navigator) return true;
+      return false;
+    },
   },
-}
-}
+};
 </script>
