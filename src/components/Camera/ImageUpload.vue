@@ -37,24 +37,17 @@
 <script>
 export default {
   name: "ImageUpload",
-  props: {
-    videoElement: {
-      type: Object,
-      required: true,
-    },
-  },
   data() {
     return {
       shouldResetFileInput: false,
       imageUpload: [],
       hasCameraSupport: true,
       imageCaptured: false,
+      videoObject: {}
     };
   },
   methods: {
     captureImage() {
-      console.log(this.$refs.videoElement);
-      console.log(this.$refs.canvas);
       if (this.$refs.videoElement && this.$refs.canvas) {
         let videoElement = this.$refs.videoElement;
         let canvas = this.$refs.canvas;
@@ -65,6 +58,7 @@ export default {
         this.imageCaptured = true;
         this.post.photo = this.dataURItoBlob(canvas.toDataURL());
         this.disableCamera();
+        this.$emit("capture-image", this.videoObject);
       }
     },
     captureImageFallback(file) {

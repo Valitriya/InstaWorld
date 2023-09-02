@@ -5,10 +5,11 @@
     </div>
     <div class="text-center q-pa-md">
       <ImageUpload
-        :videoElement="videoElement"
+        :videoElement="post.videoObject.videoElement"
         :imageUpload="imageUpload"
         :shouldResetFileInput="shouldResetFileInput"
         :hasCameraSupport="hasCameraSupport"
+        @capture-image="handleCaptureImage"
       />
     </div>
     <div class="input-wrapper small-wrapper-input">
@@ -20,7 +21,7 @@
         />
       </div>
       <div class="row justify-center q-ma-md">
-       <Location/>
+        <!-- <Location /> -->
       </div>
     </div>
     <div class="row justify-center q-mt-lg">
@@ -32,7 +33,7 @@
 <script>
 import Camera from "../components/Camera/Camera.vue";
 import ImageUpload from "../components/Camera/ImageUpload.vue";
-import Location from '../components/Location.vue';
+// import Location from "../components/Location.vue";
 import { uid } from "quasar";
 require("md-gum-polyfill");
 
@@ -41,7 +42,7 @@ export default {
   components: {
     Camera,
     ImageUpload,
-    Location
+    Location,
   },
   data() {
     return {
@@ -51,6 +52,7 @@ export default {
         textLocation: "",
         photo: null,
         date: Date.now(),
+        videoObject: {},
       },
       locationLoading: false,
       videoElement: null,
@@ -61,11 +63,13 @@ export default {
   },
   methods: {
     setVideoElement(videoElement) {
-      this.videoElement = videoElement;
+      this.post.videoObject = { videoElement };
     },
-  }
-    
-}
+    handleCaptureImage() {
+      console.log("Capture image event received with videoObject:", this.post.videoObject);
+    },
+  },
+};
 </script>
 <style lang="sass">
 .custom-input

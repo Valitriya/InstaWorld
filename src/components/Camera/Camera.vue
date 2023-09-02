@@ -1,6 +1,6 @@
 <template>
   <div>
-    <videoElement
+    <video
       v-show="!imageCaptured"
       class="full-width"
       autoplay
