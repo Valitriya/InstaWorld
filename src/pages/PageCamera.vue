@@ -1,9 +1,7 @@
 <template>
   <q-page class="container q-pa-md small-screen-only">
-    <div class=" camera-frame text-center q-pa-md">
-      <Camera 
-        :post="post"
-        @video-element="setVideoElement" />
+    <div class="camera-frame text-center q-pa-md">
+      <Camera :post="post" @video-element="setVideoElement" />
     </div>
     <div class="text-center q-pa-md">
       <!-- <ImageUpload/> -->
@@ -17,8 +15,7 @@
         />
       </div>
       <div class="row justify-center q-ma-md">
-        <Location 
-        :post="post"/>
+        <Location :post="post" />
       </div>
     </div>
     <div class="row justify-center q-mt-lg">
@@ -62,11 +59,14 @@ export default {
       this.post.videoObject = { videoElement };
     },
     handleCaptureImage() {
-      console.log("Capture image event received with videoObject:", this.post.videoObject);
+      console.log(
+        "Capture image event received with videoObject:",
+        this.post.videoObject
+      );
     },
-    handleImageCaptured(){
+    handleImageCaptured() {
       console.log("Image captured:", imageData);
-    }
+    },
   },
 };
 </script>

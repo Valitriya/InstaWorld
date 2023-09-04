@@ -29,18 +29,15 @@ export default {
       locationLoading: false,
     };
   },
-  getLocation() {
+  methods:{  
+    getLocation() {
     this.locationLoading = true;
     navigator.geolocation
       .getCurrentPosition((position) => {
         this.getCityAndCountry(position);
-      })
-      .catch(
-        (err) => {
-          this.locationError();
-        },
-        { timeout: 7000 }
-      );
+      }, (err) => {
+        this.locationError(err);
+      }, {timeout: 7000});
   },
   getCityAndCountry(position) {
     let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
@@ -68,6 +65,7 @@ export default {
     });
     this.locationLoading = false;
   },
+},
   computed: {
     locationSupported() {
       if ("geolocation" in navigator) return true;
