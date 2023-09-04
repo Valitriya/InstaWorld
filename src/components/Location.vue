@@ -18,10 +18,16 @@
   </q-input>
 </template>
 <script>
+import axios from 'axios';
 export default {
   name: "Location",
+  props: {
+    post: Object
+  },
   data() {
-    return {};
+    return {
+      locationLoading: false,
+    };
   },
   getLocation() {
     this.locationLoading = true;
@@ -38,10 +44,10 @@ export default {
   },
   getCityAndCountry(position) {
     let apiUrl = `https://geocode.xyz/${position.coords.latitude},${position.coords.longitude}?json=1`;
-    this.$axios
+    axios
       .get(apiUrl)
-      .then((result) => {
-        this.locationSuccess(result);
+      .then((response) => {
+        this.locationSuccess(response.data);
       })
       .catch((err) => {
         this.locationError();

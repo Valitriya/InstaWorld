@@ -17,7 +17,8 @@
         />
       </div>
       <div class="row justify-center q-ma-md">
-        <!-- <Location /> -->
+        <Location 
+        :post="post"/>
       </div>
     </div>
     <div class="row justify-center q-mt-lg">
@@ -29,7 +30,7 @@
 <script>
 import Camera from "../components/Camera/Camera.vue";
 import ImageUpload from "../components/Camera/ImageUpload.vue";
-// import Location from "../components/Location.vue";
+import Location from "../components/Location.vue";
 import { uid } from "quasar";
 require("md-gum-polyfill");
 
