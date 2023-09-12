@@ -26,38 +26,50 @@
   </div>
 </template>
 <script>
-import Camera from '../Camera/Camera.vue';
+import Camera from "../Camera/Camera.vue";
 
 export default {
   name: "ImageUpload",
   component: {
-    Camera
+    Camera,
   },
   data() {
     return {
-    hasCameraSupport: false
+      hasCameraSupport: false,
+      imageUpload: null, 
+      shouldResetFileInput: false,
+      imageCaptured: false
     };
   },
   methods: {
     captureImageFallback(file) {
-      this.post.photo = file;
+      if(this.post && typeof this.post.photo !== 'undefined' && this.post.photo !== null){
+        this.post.photo = file;
 
-      let canvas = this.$refs.canvas;
-      let context = canvas.getContext("2d");
+        let canvas = this.$refs.canvas;
+        let context = canvas.getContext("2d");
 
-      let reader = new FileReader();
-      reader.onload = (event) => {
-        let img = new Image();
-        img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          context.drawImage(img, 0, 0);
-          this.imageCaptured = true;
+        let reader = new FileReader();
+        reader.onload = (event) => {
+          let img = new Image();
+          img.onload = () => {
+            canvas.width = img.width;
+            canvas.height = img.height;
+            context.drawImage(img, 0, 0);
+            this.imageCaptured = true;
+          };
+          img.src = event.target.result;
         };
-        img.src = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+        reader.readAsDataURL(file);
+      }else {
+        console.error('post or post.photo is not initialized.');
+      }
+  },
+    clearImageUpload() {
+      this.imageUpload = null;
+      this.shouldResetFileInput = !this.shouldResetFileInput;
+      this.imageCaptured = false;
+    },
+  },
 };
 </script>

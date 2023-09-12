@@ -1,10 +1,14 @@
 <template>
   <q-page class="container q-pa-md small-screen-only">
-    <div class="camera-frame text-center q-pa-md">
-      <Camera :post="post" @video-element="setVideoElement" />
+    <div>
+      <Camera
+        :post="post" 
+        @video-element="setVideoElement" />
     </div>
     <div class="text-center q-pa-md">
-      <!-- <ImageUpload/> -->
+      <ImageUpload 
+        :post="post" 
+        />
     </div>
     <div class="input-wrapper small-wrapper-input">
       <div class="row justify-center q-ma-md">
@@ -46,12 +50,11 @@ export default {
         textLocation: "",
         date: Date.now(),
         videoObject: {},
+        photo: null,
       },
       locationLoading: false,
       videoElement: null,
-      imageUpload: null,
       hasCameraSupport: true,
-      shouldResetFileInput: false,
     };
   },
   methods: {
@@ -70,27 +73,3 @@ export default {
   },
 };
 </script>
-<style lang="sass">
-.custom-input
-  .q-field__label
-    color: $white
-    font-size: 22px
-    padding: 0 0 0 10px
-    font-family: 'Grand Hotel'
-  .q-field__control,
-  .q-field__inner
-    --q-color-primary: #efc7f7
-    background-color: $pink-11
-    border-radius: 5px
-    &:before
-      display: none
-  .q-btn,
-  .q-icon
-    color: $white
-  .q-field__native
-    color: $white
-    padding: 24px 10px 10px 10px
-    font-weight: bold
-  .q-field__bottom
-    color: $info
-</style>

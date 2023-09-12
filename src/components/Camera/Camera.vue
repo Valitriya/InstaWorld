@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="camera-frame text-center q-pa-md">
       <video
         v-show="!imageCaptured"
         class="full-width"
@@ -15,7 +15,7 @@
         height="240"
       />
     </div>
-    <div class="q-pa-md">
+    <div class="text-center q-pa-md">
       <q-btn
         v-if="hasCameraSupport !== null"
         @click="captureImage"
@@ -38,9 +38,6 @@ export default {
     return {
       imageCaptured: false,
       cameraSupported: null,
-      post: {
-        photo: null
-      }
     };
   },
   methods: {
@@ -76,11 +73,6 @@ export default {
         this.$emit("capture-image", this.post.videoObject);
         this.disableCamera();
       }
-    },
-    clearImageUpload() {
-      this.imageUpload = null;
-      this.shouldResetFileInput = !this.shouldResetFileInput;
-      this.imageCaptured = false;
     },
     dataURItoBlob(dataURI) {
       // convert base64 to raw binary data held in a string
