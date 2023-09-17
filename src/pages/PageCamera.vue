@@ -1,14 +1,17 @@
 <template>
   <q-page class="container q-pa-md small-screen-only">
-    <div>
+    <div class="text-center q-pa-md">
+      <ImageCapture
+        :post="post"
+        @capture-image="handleCaptureImage"/>
       <Camera
         :post="post" 
         @video-element="setVideoElement" />
     </div>
     <div class="text-center q-pa-md">
-      <ImageUpload 
+      <!-- <ImageUpload 
         :post="post" 
-        />
+        /> -->
     </div>
     <div class="input-wrapper small-wrapper-input">
       <div class="row justify-center q-ma-md">
@@ -30,6 +33,7 @@
 
 <script>
 import Camera from "../components/Camera/Camera.vue";
+import ImageCapture from "src/components/Camera/ImageCapture.vue";
 import ImageUpload from "../components/Camera/ImageUpload.vue";
 import Location from "../components/Location.vue";
 import { uid } from "quasar";
@@ -39,6 +43,7 @@ export default {
   name: "PageCamera",
   components: {
     Camera,
+    ImageCapture,
     ImageUpload,
     Location,
   },
@@ -49,12 +54,11 @@ export default {
         textCaption: "",
         textLocation: "",
         date: Date.now(),
-        videoObject: {},
         photo: null,
       },
       locationLoading: false,
       videoElement: null,
-      hasCameraSupport: true,
+      hasCameraSupport: true
     };
   },
   methods: {
@@ -64,7 +68,8 @@ export default {
     handleCaptureImage() {
       console.log(
         "Capture image event received with videoObject:",
-        this.post.videoObject
+        this.post.videoObject,
+        this.$refs.cameraRef.captureImage()
       );
     },
     handleImageCaptured() {
@@ -72,4 +77,4 @@ export default {
     },
   },
 };
-</script>
+</script> 

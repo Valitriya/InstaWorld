@@ -1,21 +1,6 @@
 <template>
   <div>
-    <div class="camera-frame text-center q-pa-md">
-      <video
-        v-show="!imageCaptured"
-        class="full-width"
-        autoplay
-        playsinline
-        ref="videoElement"
-      />
-      <canvas
-        v-show="imageCaptured"
-        ref="canvas"
-        class="full-width"
-        height="240"
-      />
-    </div>
-    <div class="text-center q-pa-md">
+    <div>
       <q-btn
         v-if="hasCameraSupport !== null"
         @click="captureImage"
@@ -32,12 +17,15 @@
 export default {
   name: "Camera",
   props: {
+    cameraPost: Object,
     hasCameraSupport: Boolean,
   },
   data() {
     return {
-      imageCaptured: false,
       cameraSupported: null,
+      post: {
+        photo: null,
+      },
     };
   },
   methods: {
@@ -55,11 +43,6 @@ export default {
           this.cameraSupported = false;
         });
     },
-    disableCamera() {
-      this.$refs.videoElement.srcObject.getVideoTracks().forEach((track) => {
-        track.stop();
-      });
-    },
     captureImage() {
       if (this.$refs.videoElement && this.$refs.canvas) {
         let videoElement = this.$refs.videoElement;
@@ -74,32 +57,19 @@ export default {
         this.disableCamera();
       }
     },
-    dataURItoBlob(dataURI) {
-      // convert base64 to raw binary data held in a string
-      // doesn't handle URLEncoded DataURIs - see SO answer #6850276 for code that does this
-      var byteString = atob(dataURI.split(",")[1]);
-      // separate out the mime component
-      var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-      // write the bytes of the string to an ArrayBuffer
-      var ab = new ArrayBuffer(byteString.length);
-      // create a view into the buffer
-      var ia = new Uint8Array(ab);
-      // set the bytes of the buffer to the correct values
-      for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-      }
-      // write the ArrayBuffer to a blob, and you're done
-      var blob = new Blob([ab], { type: mimeString });
-      return blob;
+    disableCamera() {
+      this.$refs.videoElement.srcObject.getVideoTracks().forEach((track) => {
+        track.stop();
+      });
     },
-  },
-  mounted() {
-    this.initCamera();
-  },
-  beforeDestroy() {
-    if (this.hasCameraSupport) {
-      this.disableCamera();
-    }
+    mounted() {
+      this.initCamera();
+    },
+    beforeDestroy() {
+      if (this.hasCameraSupport) {
+        this.disableCamera();
+      }
+    },
   },
 };
 </script>
