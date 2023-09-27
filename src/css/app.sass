@@ -1,3 +1,49 @@
 // app global css in Sass form
 .text-grand-hotel
+<<<<<<< HEAD
     font-family: 'Grand Hotel', 'Roboto', Helvetica Neue, Helvetica, Areal, sans-serif
+=======
+    font-family: 'Grand Hotel', 'Roboto', Helvetica Neue, Helvetica, Areal, sans-serif
+.small-screen-only
+    @media (max-width: $breakpoint-sm-max)
+        display: block  
+    @media (min-width: $breakpoint-md-min)
+        display: none
+.large-screen-only
+    @media (max-width: $breakpoint-md-max)
+        display: none
+    @media (min-width: $breakpoint-sm-min)
+        display: block
+.small-wrapper-input
+    @media (min-width: $breakpoint-sm-min)
+        margin: 0 auto
+        width: 40vh
+.container
+    max-width: 975px
+    margin: 0 auto
+.camera-frame, .input-wrapper
+  border: 5px solid $pink
+  border-radius: 10px
+.custom-input
+    .q-field__label
+        color: $white
+        font-size: 22px
+        padding: 0 0 0 10px
+        font-family: 'Grand Hotel'
+    .q-field__control,
+    .q-field__inner
+        --q-color-primary: #efc7f7
+        background-color: $pink-11
+        border-radius: 5px
+    &:before
+        display: none
+    .q-btn,
+    .q-icon
+        color: $white
+    .q-field__native
+        color: $white
+        padding: 24px 10px 10px 10px
+        font-weight: bold
+    .q-field__bottom
+        color: $info
+>>>>>>> 2b3c157140158f72d6b1a5631c304d07e73f817e

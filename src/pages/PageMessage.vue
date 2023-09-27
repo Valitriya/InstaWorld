@@ -1,11 +1,18 @@
 <template>
-    <q-page class="flex flex-center">
-      <h5>Message Page</h5>
-    </q-page>
-  </template>
-  
-  <script>
-  export default {
-    name: 'PageMessage'
+  <q-page class="flex flex-center">
+    <!-- <Camera/> -->
+    <ImageUpload/>
+  </q-page>
+</template>
+
+<script>
+// import Camera from "../components/Camera/Camera.vue"
+import ImageUpload from 'src/components/Camera/ImageUpload.vue';
+export default {
+  name: "PageMessage",
+  components: {
+    // Camera
+    ImageUpload
   }
-  </script>
+};
+</script>
