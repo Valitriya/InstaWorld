@@ -23,14 +23,6 @@ export default {
   props: {
     post: Object,
   },
-//   data() {
-//     return {
-//       post: {
-//         videoObject: {},
-//       },
-//       imageCaptured: false,
-//     };
-//   },
   methods: {
     captureImage() {
       if (this.$refs.videoElement && this.$refs.canvas) {
@@ -41,8 +33,8 @@ export default {
         let context = canvas.getContext("2d");
         context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
         this.imageCaptured = true;
-        this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-        this.$emit("capture-image", this.post.videoObject);
+        this.cameraPost.photo = this.dataURItoBlob(canvas.toDataURL());
+        this.$emit("capture-image", this.cameraPost.videoObject);
         this.disableCamera();
       }
     },

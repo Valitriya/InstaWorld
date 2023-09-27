@@ -23,11 +23,14 @@ export default {
   data() {
     return {
       cameraSupported: null,
-      post: {
+      postData: {
         photo: null,
       },
     };
   },
+  mounted() {
+      this.initCamera();
+    },
   methods: {
     initCamera() {
       navigator.mediaDevices
@@ -52,24 +55,23 @@ export default {
         let context = canvas.getContext("2d");
         context.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
         this.imageCaptured = true;
-        this.post.photo = this.dataURItoBlob(canvas.toDataURL());
-        this.$emit("capture-image", this.post.videoObject);
+        this.cameraPost.photo = this.dataURItoBlob(canvas.toDataURL());
+        this.$emit("capture-image", this.cameraPost.videoObject);
         this.disableCamera();
       }
     },
-    disableCamera() {
+    
+  },
+  disableCamera() {
       this.$refs.videoElement.srcObject.getVideoTracks().forEach((track) => {
         track.stop();
       });
-    },
-    mounted() {
-      this.initCamera();
     },
     beforeDestroy() {
       if (this.hasCameraSupport) {
         this.disableCamera();
       }
     },
-  },
+  ref: 'cameraRef',
 };
 </script>

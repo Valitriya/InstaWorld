@@ -5,8 +5,9 @@
         :post="post"
         @capture-image="handleCaptureImage"/>
       <Camera
-        :post="post" 
-        @video-element="setVideoElement" />
+        :cameraPost="cameraPost" 
+        @video-element="setVideoElement"
+        :has-camera-support="hasCameraSupport" />
     </div>
     <div class="text-center q-pa-md">
       <!-- <ImageUpload 
@@ -58,17 +59,24 @@ export default {
       },
       locationLoading: false,
       videoElement: null,
-      hasCameraSupport: true
+      hasCameraSupport: true,
+      cameraPost: { 
+        photo: null,
+        videoObject: null,
+      },
     };
   },
   methods: {
     setVideoElement(videoElement) {
-      this.post.videoObject = { videoElement };
+      this.cameraPost.videoObject = { videoElement };
+    },
+    captureImageFromCamera() {
+      this.$refs.cameraRef.captureImage();
     },
     handleCaptureImage() {
       console.log(
         "Capture image event received with videoObject:",
-        this.post.videoObject,
+        this.cameraPost.videoObject,
         this.$refs.cameraRef.captureImage()
       );
     },
